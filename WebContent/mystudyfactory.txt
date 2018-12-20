@@ -1,0 +1,192 @@
+Factory method
+
+This Pattern is mainly used when you want to delegate object instantiation to subclasses. 
+
+This is mainly required when you have product inheritance and possiblity of future addition to that.
+
+A superclass specifies all standard and generic behavior (using pure virtual "placeholders" for creation steps), and then delegates the creation details to subclasses that are supplied by the client.
+The factory method pattern is a creational pattern that uses factory methods to deal with the problem of creating objects without having to specify the exact class of the object that will be created. This is done by creating objects by calling a factory method—either specified in an interface and implemented by child classes, or implemented in a base class and optionally overridden by derived classes—rather than by calling a constructor.
+
+ 
+
+For example if you have a bank and you have an account interface you can have multiple type
+of accounts that extend that interface i.e saving account, edge account, current account etc. 
+Now in future when a new account type class is added you just need to add a new class extending that interface. 
+You are loosely coupling your code. You client need not worry.  
+
+If you classes are tightly coupled with you clients then any change in your classes will require changes at all client ends.
+ 
+Idea is to creates objects without exposing the instantiation logic to the client and without impacting other subclasses.
+The new objects refers to the newly created object through a common interface. 
+
+
+The Product defines the type or interface for the concrete objects that are created by the Factory Method.
+The ConcreteProduct provides the implementation of the different Product types created by the Factory Method. The ConcreteProduct is instantiated by the factory method of the different ConcreteCreator objects.
+The Creator class specify the creator method or factory method that returns objects of type Product. 
+The ConcreteCreator provides the concrete factory methods. These methods override the factory method in the Creator class to return the ConcreteProduct instance. 
+The Client object is decoupled from the ConcreteProduct objects, but uses the factory method to return the appropriate ConcreteProduct through the Product type. 
+
+<< Diagram >>
+ 
+
+Notes :
+The new operator considered harmful. There is a difference between requesting an object and creating one. The new operator always creates an object, and fails to encapsulate object creation. A Factory Method enforces that encapsulation, and allows an object to be requested without inextricable coupling to the act of creation.
+Factory Methods are usually called within Template Methods.
+Factory Method: creation through inheritance. 
+
+
+BankAccountProduct.java 
+-----------------------
+package product;
+
+public abstract class BankAccountProduct {
+
+  public abstract void depositMoney(double depositAmount);
+
+  public abstract void displayBalance();
+
+  public abstract void withdrawMoney(double withdrawAmount);
+
+}  
+
+
+BankABC_ChequeAccountProduct.java
+
+package abc;
+
+import product.BankAccountProduct;
+
+public class BankABC_ChequeAccountProduct
+ extends BankAccountProduct {
+
+  private double accountBalance = 0.00;
+
+  public BankABC_ChequeAccountProduct() {
+    System.out.println("Bank ABC - Cheque 
+Account : Creating account.");
+  }
+
+  public void depositMoney(double depositAmount) {
+    accountBalance += depositAmount;
+    System.out.println("Bank ABC - Cheque 
+Account : Deposit money "
+        + depositAmount);
+  }
+
+  public void displayBalance() {
+    System.out.println("Bank ABC - Cheque Account 
+: Acount Balance "
+        + accountBalance);
+  }
+
+  public void withdrawMoney(double withdrawAmount) {
+    accountBalance -= withdrawAmount;
+    System.out.println("Bank ABC - Cheque Account
+ : Withdraw money "
+        + withdrawAmount);
+  }
+
+} 
+
+BankABC_SavingsAccountProduct.java 
+package abc;
+
+import product.BankAccountProduct;
+
+public class BankABC_SavingsAccountProduct
+ extends BankAccountProduct {
+
+  private double accountBalance = 0.00;
+
+  public BankABC_SavingsAccountProduct() {
+    System.out.println("Bank ABC - Savings Account
+ : Creating account.");
+  }
+
+  public void depositMoney(double depositAmount) {
+    accountBalance += depositAmount;
+    System.out.println("Bank ABC - Savings Account 
+: Deposit money "
+        + depositAmount);
+  }
+
+  public void displayBalance() {
+    System.out.println("Bank ABC - Savings Account
+: Acount Balance "
+        + accountBalance);
+  }
+
+  public void withdrawMoney(double withdrawAmount) {
+    accountBalance -= withdrawAmount;
+    System.out.println("Bank ABC - Savings Account 
+: Withdraw money "
+        + withdrawAmount);
+  }
+
+} 
+
+BankAccountCreator.java 
+package creator;
+
+import product.BankAccountProduct;
+
+public abstract class BankAccountCreator {
+
+  public abstract BankAccountProduct 
+createBankAccount(String accountType);
+
+} 
+
+
+
+BankABC_AccountConcreteCreator.java
+package abc;
+
+import product.BankAccountProduct;
+import creator.BankAccountCreator;
+
+public class BankABC_AccountConcreteCreator
+ extends BankAccountCreator {
+
+  public BankAccountProduct createBankAccount
+(String accountType) {
+    if ("CHEQUE".equals(accountType)) {
+      return new BankABC_ChequeAccountProduct();
+
+    } else if ("SAVINGS".equals(accountType)) {
+      return new BankABC_SavingsAccountProduct();
+
+    } else {
+      return null;
+    }
+  }
+
+} 
+
+
+BankSystemClient.java 
+package client;
+
+import product.*;
+import creator.*;
+import xyz.*;
+
+
+
+public class BankSystemClient {
+
+  public static void main(String[] args) {
+    BankAccountCreator bankSystemCreator = 
+new BankXYZ_AccountConcreteCreator();
+    BankAccountProduct account = bankSystemCreator
+        .createBankAccount("CHEQUE");
+
+    account.depositMoney(10.00);
+    account.displayBalance();
+    account.withdrawMoney(5.00);
+    account.displayBalance();
+  }
+
+} 
+
+

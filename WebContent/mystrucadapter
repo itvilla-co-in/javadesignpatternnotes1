@@ -1,0 +1,152 @@
+The Adapter Design Pattern is part of structural patterns. It allows the interface of an 
+existing class to be used as another interface. In summary, an adapter helps two incompatible
+interfaces to work together.Adapter pattern works as a bridge between two incompatible interfaces.
+So converts the interface of a class into another interface the clients expects. 
+For example Different countries sometimes have different electrical sockets. In order to make different 
+electrical sockets work together with a different plugs the use of adapters is necessary.
+Real life adapters are also same, if you want to reuse some other class then you might need
+to convert the currennt object to that type before using that class methods. 
+
+
+
+ 
+In our example we have a class BusinessCardDesigner but it is expecting the input as 
+customer. Now want to reuse BusinessCardDesigner class for our employee class. So 
+we have to convert and employee into a customer so we will develop an EmployeeClassAdapter.
+
+public class BusinessCardDesigner {
+
+	public String designCard(Customer customer) {
+		String card = "";
+		card += customer.getName();
+		card += "\n" + customer.getDesignation();
+		card += "\n" + customer.getAddress();
+		return card;
+	}
+}
+
+public interface Customer {
+
+	String getName();
+	
+	String getDesignation();
+	
+	String getAddress();
+}
+
+
+
+public class Employee {
+
+	private String fullName;
+	
+	private String jobTitle;
+	
+	private String officeLocation;
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	public String getOfficeLocation() {
+		return officeLocation;
+	}
+
+	public void setOfficeLocation(String officeLocation) {
+		this.officeLocation = officeLocation;
+	}
+	
+}
+
+Here we have overridden customer methods to retrun the employee fullname,jobtitle and location.
+
+
+public class EmployeeClassAdapter extends Employee implements Customer{
+
+	@Override
+	public String getName() {
+		return this.getFullName();
+	}
+
+	@Override
+	public String getDesignation() {
+		return this.getJobTitle();
+	}
+
+	@Override
+	public String getAddress() {
+		return this.getOfficeLocation();
+	}
+	
+}
+
+-------------------
+public class Main {
+
+	public static void main(String[] args) {
+		/** Using Class/Two-way adapter **/ 
+		EmployeeClassAdapter adapter  = new EmployeeClassAdapter();
+		populateEmployeeData(adapter);
+		BusinessCardDesigner designer = new BusinessCardDesigner();
+		String card  = designer.designCard(adapter);
+		System.out.println(card);
+		
+		System.out.println("************************************************************");
+		/** Using Object Adapter **/
+		Employee employee = new Employee();
+		populateEmployeeData(employee);
+		EmployeeObjectAdapter objectAdapter = new EmployeeObjectAdapter(employee); 
+		card = designer.designCard(objectAdapter);
+		System.out.println(card);
+	}
+
+	private static void populateEmployeeData(Employee employee) {
+		employee.setFullName("Elliot Alderson");
+		employee.setJobTitle("Security Engineer");
+		employee.setOfficeLocation("Allsafe Cybersecurity, New York City, New York");
+	}
+}
+
+Second method.
+/**
+ * An object adapter. Using composition to translate interface
+ */
+public class EmployeeObjectAdapter implements Customer{
+
+	private Employee adaptee;
+	
+	public EmployeeObjectAdapter(Employee adaptee) {
+		this.adaptee = adaptee;
+	}
+	
+	@Override
+	public String getName() {
+		return adaptee.getFullName();
+	}
+
+	@Override
+	public String getDesignation() {
+		return adaptee.getJobTitle();
+	}
+
+	@Override
+	public String getAddress() {
+		return adaptee.getOfficeLocation();
+	}
+	
+		
+}
+
+

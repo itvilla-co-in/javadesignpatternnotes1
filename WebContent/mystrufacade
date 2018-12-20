@@ -1,0 +1,25 @@
+Facade Pattern provides a universal interface to a set of interfaces in as subsystem. 
+Facade defines a higher-level interface that makes the subsystem easier to use.
+Facade encapsulates a complex subsystem behind a simple interface. It hides much of the complexity and makes the subsystem easy to use.
+It decouples a client implementation from the complex subsystem,we can make changes to the existing subsystem and don’t affect a client.
+Suppose you have a database access class with different methods to read the different tables. The client requires the complete result. You could use a facade pattern which hides the complex database access interface behind a few easy to understand and maintainable interface
+
+
+
+https://www.journaldev.com/1557/facade-design-pattern-in-java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The difference between the Adapter Pattern and the Facade Pattern is their intent. The Adapter Pattern converts one or more interfaces to an expected subsystem interface. The Facade Pattern simplifies one or more interfaces to a subsystem.

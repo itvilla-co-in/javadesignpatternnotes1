@@ -1,0 +1,19 @@
+Flyweight design pattern uses sharing to support large numbers of objects that have 
+part of their internal state common and other parts of state can vary.
+This is done by segregating object properties into two types intrinsic and extrinsic.
+
+intrinsic State is internal to flyweight object and shared across it. Usually represented in the form of member variables.
+extrinsic comes from client in the form of method parameters. It is not shared across the object.
+
+In the flyweight pattern, instead of Thousands of new instantiation occurrences of a memory intensive heavy object or similar objects, objects are reused. This can be used to reduce memory requirements and instantiation time and related costs.
+
+Lets take and example of alphabet characters. Text editors like word have 26 distinct letters 
+to write words. The editor has to instantiate all 26 letters repeatedly. 
+Like when we type hello how are you, there are two occurrences of the letter ‘h’. If 
+we instantiate all  different characters objects separately it is a complete waste of time
+ effort and memory because it is the same object base. Only the extrinsic effect of letters 
+  has changed that mans letters are the same just their form and shape are changing. 
+  i.e some are bold-capital, some are captical, some are italic etc. 
+  
+    
+

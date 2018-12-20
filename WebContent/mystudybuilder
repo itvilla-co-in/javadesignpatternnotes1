@@ -1,0 +1,74 @@
+Builder Design Pattern is type of Creational design pattern that deal with object
+creation mechanisms. Builder pattern is used to create instance of very complex 
+object in easiest way. This pattern is used to create a class which needs 
+immutable objects.  
+
+When you create immutable objects you might have all the object variables declared
+as final and values cannot be changed once they are assigned.  So you end up 
+with lot of arguments in constructor and your client code is very tightly coupled
+and has to pass all the parameters in right sequence. 
+
+Imagine a User class which has its parameters and it also needs other objects 
+like adress created first before even a user is created. So you might end up
+having lot of dependancies in that way and creation your object might get complicated.
+Builder design helps us to resolve that issue, we remove the logic related to 
+object construction  from client code. 
+ 
+ 
+
+We dont need immutable classes, per se, but they can certainly make some 
+programming tasks easier, especially when multiple threads are involved. 
+You dont have to perform any locking to access an immutable object, and any 
+facts that you have already established about such an object will continue to 
+be true in the future.
+ 
+ 
+UML :
+dpbuilderuml.png
+
+Product is our End Result.  This abstract base class defines all of the steps that must be taken in order to correctly create a product. Each step is generally abstract as the actual functionality of the builder is carried out in the concrete subclasses. The GetProduct method is used to return the final product. The builder class is often replaced with a simple interface. Builder also allow to assemble the objects using
+build() method.  Concrete builder is just an implementation of our Builder class.
+Director provides logic or how to use builder object to create our final product. 
+
+Lets take an example of a simple class without a BUILDER implementation. 
+
+We have a simple address class. Here Client might create address with all parameters
+or state is opition or city is optional. So you end up with multiple constructors.
+So problem number 1 is Too Many arguments to pass from client program to the  class that can be error prone 
+because most of the time, the type of arguments are same and from client side its 
+hard to maintain the order of the argument.
+Some of the parameters might be optional , we are forced to send all the parameters 
+and optional parameters need to send as NULL or we are foced to write multiple constructors.
+If the object is heavy and its creation is complex, then all that complexity will be
+part of your classes that is confusing.
+
+addressLegacy.java
+
+Now when you call this class you have to ensure that parameters are passed in right 
+sequence. Client needs to know all these details. 
+
+With builder pattern this is eliminated. How lets look at it. My Builder as a nested 
+class inside the class whose object it builds. You dont need to generate this code.
+You can do it through IDE like eclipse and netbeans.  For eclipse you can get jar from
+here https://github.com/henningjensen/bpep.
+
+Modifed address class. 
+
+Modified client code. 
+
+ Benefits and Advantages
+
+There is a considerable cost to the Builder pattern in that one must essentially double the 
+number of lines of code each attribute and for setting those attributes. 
+However, when the client code benefits greatly in terms of usability and readability. 
+The parameters to the constructor are reduced and are provided in highly readable method calls.
+Also there client does not need to remember the sequence of parameters and no of parameters. 
+
+More lines of code in the class with the builder sometimes mean that developers may forget to add support for a new attribute to the builder when they add that attribute to the main class. To try to help with this, I like to nest my builders inside the class that they build so that it's more obvious to the developer that there is a relevant builder that needs to be similarly updated. 
+
+
+
+
+
+
+ 

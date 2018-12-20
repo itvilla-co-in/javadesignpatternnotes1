@@ -1,0 +1,30 @@
+The idea of the Object Pool pattern is similar to that of a real-life book library. 
+Every one knows that it is cheaper to go to you library and borrow a book than to buy 
+a copy for yourself. Likewise, it is cheaper (in regards to system memory and speed) 
+for a process to borrow an object rather than to instantiate it.
+
+The Object Pool lets others "check out" objects from its pool, when those objects are 
+no longer needed by their processes, they are returned to the pool in order to be reused. 
+However, we dont want a process to have to wait for a particular object to be released, 
+so the Object Pool also instantiates new objects as they are required, but must also 
+implement a facility to clean up unused objects periodically.
+
+Performance can be sometimes the key issue during the software development and the 
+object creation(class instantiation) is a costly step. While the Prototype pattern 
+helps in improving the performance by cloning the objects, the Object Pool pattern
+ offer a mechanism to reuse objects that are expensive to create. 
+
+An object pool is a collection of a particular object that an application will 
+create and keep on hand for those situations where creating each instance is expensive. 
+A good example would be a database connection or a worker thread. The pool checks 
+instances in and out for users like books out of a library.
+
+
+Requirements for creating an Object Pool 
+1. Thread-Safe caching of objects to be done in the pool.
+2. Methods to get and release the objects. Also reset the object while giving it to new caller.
+3. We have to define if caller is asking for objects and there are no more objects in pool
+then either create a new object or wait for some objects to be released. 
+
+
+

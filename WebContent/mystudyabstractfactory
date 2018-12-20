@@ -1,0 +1,13 @@
+An abstract factory provides an interface for creating families of related objects without specifying their concrete classes
+Any place where you need a run-time value to construct a particular dependency, Abstract Factory is the solution.
+
+
+
+A real life example for the use of the Abstract Factory pattern is providing data access to two different data sources (e.g. a SQL Database and a XML file). You have two different data access classes (a gateway to the datastore). Both inherit from a base class that defines the common methods to be implemented (e.g. Load, Save, Delete).
+
+Which data source shall be used shouldn't change the way client code retrieves it's data access class. Your Abstract Factory knows which data source shall be used and returns an appropriate instance on request. The factory returns this instance as the base class type.
+
+Lets look at the UML. To summarize an abstract factory provides an interface for creating families of related objects without specifying their concrete classes. Sometimes one wants to construct an instance of one of a suite of classes, deciding between the classes at the time of instantiation. In order to avoid duplicating the decision making everywhere an instance is created, we need a mechanism for creating instances of related classes without necessarily knowing which will be instantiated.
+
+
+ 

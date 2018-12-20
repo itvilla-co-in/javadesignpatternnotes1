@@ -1,0 +1,17 @@
+Class loaders are responsible for loading Java classes during runtime dynamically to the JVM (Java Virtual Machine). Also, they are part of the JRE (Java Runtime Environment). Hence, the JVM doesn’t need to know about the underlying files or file systems in order to run Java programs thanks to class loaders.
+Also, these Java classes aren’t loaded into memory all at once, but when required by an application. This is where class loaders come into the picture. They are responsible for loading classes into memory.
+
+
+When a Java application is launched, the first class to run (or the entry point into the application) is the one with public static void method called main(). This class usually has references to other classes, and all attempts to load the referenced classes are carried out by the class loader.
+
+Why write a ClassLoader?
+If the JVM has a ClassLoader, then why would you want to write another one? Good question. The default ClassLoader only knows how to load class files from the local filesystem. This is fine for regular situations, when you have your Java program fully compiled and waiting on your computer. 
+But one of the most innovative things about the Java language is that it makes it easy for the JVM to get classes from places other than the local hard drive or network. For example, browsers use a custom ClassLoader to load executable content from a Web site. 
+
+
+Custom class loaders therefore open up a variety of interesting possibilities:
+Loading multiple versions of the same class with different classloaders (e.g. to resolve possible versioning conficts for example)
+Loading and unloading classes dynamically at runtime
+
+Normal Java applications don't usually need to worry about classloaders. But if you are writing a framework or platform that needs to host other code then they become much more important / relevant.
+

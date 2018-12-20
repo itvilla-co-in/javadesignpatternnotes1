@@ -1,0 +1,92 @@
+Decorator pattern lets you dynamically change the behavior of an object at run time by wrapping them in an object of a decorator class.
+Inheritance is used to extend the abilities of ‘a class’. Unlike inheritance, you can choose any single object of a class and modify its behaviour leaving the other instances unmodified.
+Here you build a Wrapper around an object by extending its behavior. 
+
+Suppose you have a interface message and you have an implementation TextMessage which 
+returns the text message as string.  Now if you want to return a string back as
+HtmlEncodedMessage or Base64EncodedMessage you can use decorator pattern and use in client as 
+below.
+
+
+
+public interface Message {
+
+	String getContent();
+	
+}
+
+
+public class TextMessage implements Message {
+
+	private String msg;
+	
+	public TextMessage(String msg) {
+		this.msg = msg;
+	}
+	
+	@Override
+	public String getContent() {
+		return msg;
+	}
+}
+
+
+//Decorator. Implements component interface
+public class HtmlEncodedMessage implements Message {
+
+	private Message msg;
+	
+	public HtmlEncodedMessage(Message msg) {
+		this.msg = msg;
+	}
+	
+	@Override
+	public String getContent() {
+		return StringEscapeUtils.escapeHtml4(msg.getContent());
+	}
+
+	
+}
+
+
+
+public class Base64EncodedMessage implements Message {
+
+	private Message msg;
+	
+	public Base64EncodedMessage(Message msg) {
+		this.msg = msg;
+	}
+
+	@Override
+	public String getContent() {
+		//Be wary of charset!! This is platform dependent..
+		return Base64.getEncoder().encodeToString(msg.getContent().getBytes());
+	}
+	
+	
+}
+
+
+public class Client {
+
+	public static void main(String[] args) {
+		Message m = new TextMessage("The <FORCE> is strong with this one!");
+		System.out.println(m.getContent());
+
+		Message decorator = new HtmlEncodedMessage(m);
+		System.out.println(decorator.getContent());
+		
+		decorator = new Base64EncodedMessage(decorator);
+		System.out.println(decorator.getContent());
+	}
+}
+
+Decorator Vs inheritance. 
+
+The decorator pattern provides a flexible alternative to inheritance for extending objects functionality. This pattern is designed in a way that multiple decorators can be stacked on top of each other, each adding new functionality. In contrast to inheritance, a decorator can operate on any implementation of a given interface, which eliminates the need to subclass an entire class hierarchy. 
+
+both inheritance and the decorator pattern have in common is the fact that they both allow you to change how an object behaves. But how they achieve this change in behavior is where inheritance and the decorator pattern are different. 
+
+With inheritance, dynamically changing the behavior of an object can be a burdensome process. Suppose that you want to dynamically change the behavior of an object using inheritance. Since we are dealing with inheritance, you will need to use a child class and then create an object of that child class in order to get the desired effect. After you create the child class object you will then need to copy the state from the current object into the new child class object – because you will presumably want to still save the state of the current object. And finally, after you are done copying the state, you will want to discard the old object since you no longer need it. This is obviously a long process that can be quite a pain to implement over and over again. 
+But if we use the Decorator pattern instead, it is a lot easier to dynamically change the behavior of the object. All we have to do is wrap the current object with another object that contains the extra behavior that is desired. 

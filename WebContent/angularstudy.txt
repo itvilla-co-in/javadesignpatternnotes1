@@ -1,0 +1,393 @@
+Folder structure of Angular Project. 
+E2e – End to End : We write end to end test case for your application. Automated test to cases.  
+Node_modules : This is where we store all third party libs that we require for our application. This is just for development, when we compile all the are put in a bundle and deployed as part of application so we don’t acutally deploy this sperately. 
+Src forlder  This has below subfolders. 
+1.	app folder which is actually going to store all our code.  Every application has at least one component and one module. 
+2.	Assests :  static assests like images, text files, icons etc
+3.	Environments folder : Configuration setting for different environments. Like prod,test,dev etc.
+4.	Index.html this is root for our application. 
+5.	Main.ts ->  This is the starting point of angular application.  Its like main method in java, this is where the execution starts.
+6.	Pollyfills.ts -> Lot of browsers done support all the Angular JS features, this imports all the libraries of JS and this imports files that are required by browsers. 
+7.	Styles.css -> Global style of application.
+8.	Test.ts -> Setting up testing environment. 
+9.	.angular-cli.json ->  configuration used by angular to define project properties. 
+10.	.package.json ->  all node project has this file. This file has your project settings, dependencies, dev dependencies specific to dev,
+11.	Protactor.config.js -> config for e2e.
+12.	Tsconfig.json -> Type script compiler settings. 
+13.	Tslint.json -> analysis tool for typescript code. 
+
+Webpack -> build tool which bundles the js,stylesheets,vendor bundle which has third party libs, etc..  Any file you change webpack automatically recompliles application and refreshes the bundle.  This a feature of webpack which is called hot moudule replacement HRM. Webpack automatically injects these bundles in your html code.  In here all your css stylesheets are also compiled in js bundle. 
+
+Typescript is superset of JavaScript which means that any JavaScript code can also be called as typescript code but viceversa is not true. 
+
+Typescript is :
+	Strong/Static typing : When we define a var we have to define type if its int,string etc. 
+	Object oriented Language. 
+	Compile-Time Errors are found at compile time. 
+	Great Tooling – Example : Intellesense
+
+
+Typescripts are compiled into JavaScripts which is understood by browsers.
+
+npm install –g typescript 
+
+tsc –version (tsc stands for typescript compiler)
+
+
+If you install type script and create a file called as main.ts and edit with some code then you will have to compile it to main.js through the typescript compiler. But we don’t need to do that since angular does the compiling and bundling for us. 
+
+Variable Declaration :
+var keyword  -> var number = 1;  (Supported by JS)
+let keyword -> let count = 1;    (ES6 introduced in 2015 supports let keyword)
+
+
+Example temp.ts :
+Function doSomething(){
+for(vari=0;i<5;i++{
+console.log(i);
+}
+console.log(“Finally” + i);
+}
+doSomething();
+
+
+tsc temp.ts | node main.js => compiles and pipes second command. 
+
+Output
+1
+2
+3
+4
+5
+Finally 5
+So here var is accessible outside the for loop. If you use let instead of var the variable I is not visible outside loop. 
+
+Note : Even tough typescript compiler might give error it will still move the code from ts to js.  Here the great thing is typescript compiler is smart enough the know the error and it will actually replace the let to var so that the code runs fine.
+
+
+
+Example:
+Let count = 5; // here count is number
+count = “a”;
+
+this might give us compile error but it will convert let to var which is ok to convert on runtime but based on business logic you might face issues since if you are going to use count in calculation it might fail.
+
+
+
+Example :
+let a;
+a=1;
+a=”true”;
+etc etc.. here since at time of declaration we did not define anything ts will not give error. 
+
+If we want to restrict something to a specific type. 
+let a: number;
+a=1;
+a=”true”; // compilation error. 
+
+
+Types are number,Boolean,string,any,number[],any[].
+any is actually anything 
+any[] = [1,”a”,true,2,false]
+
+const ColorRed = 0;
+
+enum Color {Red = 0, Green = 1, Blue = 2};
+let backgroundColor = Color.Red;
+
+
+Note here these two line of code above generates lot of JS code which we are avoiding, so ts is actually great for us and make our code simple. 
+
+Just like java when we declare String in java we get lot of functions in ts also when you play around with string variable when you type . you will see lot of predefined functions available in ts. 
+
+Now if I do this way
+Let message;
+message = ‘testing’;
+message.*** you will not  get function intellesense here since message is actually of type any and not String.
+
+Here at runtime if you want to do type assertion it happens like below.
+(<string>message).** you will not get functions intellesense.
+OR 
+(message as string).** you will not get functions intellesense.
+
+
+Arrow Functions :
+
+In JS we declare function like this :
+let log = function(message){
+console.log(message)
+}
+
+In angular we can use arrow function. 
+
+let dolog = (message) =>{
+console.log(message)
+}
+
+OR
+
+let dolog = (message) =>console.log(message)
+
+
+
+Class : 
+
+Class Point{
+x: number;
+y: number;
+
+draw()  {
+console.log(‘X: is ‘ + this.x + ‘Y: is ’ + this.y);
+}
+
+getDistance(another: Point){
+//logic here
+}
+
+}
+
+Just like java or any other langague x,y are member variables and draw and getDistance are member functions. 
+Now you can declare objects of that class and use methods.
+
+
+Let point:Point = new Point(); OR let point = new Point();
+Now you can access point and use methods.
+point.x=1;
+point.y=2;
+point.draw();
+
+
+Constructor :
+
+Class Point{
+x: number;
+y: number;
+
+Constructor(x: number, y:number)
+{
+this.x=x;
+this.y=y;
+}
+draw()  {
+console.log(‘X: is ‘ + this.x + ‘Y: is ’ + this.y);
+}
+
+}
+
+Now
+let point = new Point(1,2);
+point.draw();
+
+
+In java you can have multiple constructors like one without any variables and one with one and one with two but here you can define only one but what you can do is you can mark parameters as options. 
+Constructor(x?: number, y?:number)
+{
+this.x=x;
+this.y=y;
+}
+
+Now you can define objects like new Point(),new Point(1), new Point(1,2);
+
+
+
+
+Access Modifiers :
+
+1.	Public
+2.	Private
+3.	Protected
+
+
+Class Point{
+Private x: number;
+y: number;
+
+Constructor(x: number, y:number)
+{
+this.x=x;
+this.y=y;
+}
+
+draw()  {
+console.log(‘X: is ‘ + this.x + ‘Y: is ’ + this.y);
+}
+
+}
+
+
+Now you cannot access x like point.x since its private so you have to have getters and setters just like we do in java. 
+By default they are all public. 
+
+
+Now lets do some magic. We have this code. 
+Class Point{
+private x: number;
+private y: number;
+
+Constructor(x?: number, y?:number)
+{
+this.x=x;
+this.y=y;
+}
+
+draw()  {
+console.log(‘X: is ‘ + this.x + ‘Y: is ’ + this.y);
+}
+
+}
+
+Is same as below. 
+
+Class Point{
+
+Constructor(private x?: number, private y?:number) { }
+
+draw()  {
+console.log(‘X: is ‘ + this.x + ‘Y: is ’ + this.y);
+}
+
+}
+
+This writes rest of code for us. 
+
+
+Properties :
+Now with this code we can declare Point(1,2) but we cannot change it since x and y are private.  So we have something like getters and setters method like we do in java. 
+
+
+Class Point{
+
+Constructor(private x?: number, private y?:number) { }
+
+getX(){
+return this.x;
+}
+
+setX(value)(
+// you can write some busness logic if you want some restrictsiosn. 
+This.x =value;
+)
+draw()  {
+console.log(‘X: is ‘ + this.x + ‘Y: is ’ + this.y);
+}
+
+}
+
+Now we can have like point.getX() or point.setX(1);
+
+TS makes it easy for us. If we define get and set as below like there is one space between get/set and variable, you can directly access them like point.X or point.X=10; This concept is called properites.  If some property is read only you can skip setters method. 
+ 
+
+get X(){
+return this.x;
+}
+
+set X(value)(
+// you can write some busness logic if you want some restrictsiosn. 
+This.x =value;
+)
+
+
+In JS we use Camel notation which is first letter of variable is lower case. Lets say our variable is name then we can use get Name.  What if we want to use get x <- smaller case first. 
+private _x then you can use get x
+
+
+Now just like java we have one ts file per class and wherever you want to create objects of that class you import that. 
+Import {Point, xyz, abc} from ‘nameofmodule’
+Import {Point} from ‘./point’
+
+
+export is coded on the file that will be imported somewhere.
+import is coded  where we need to import some modules.
+In angular world if there is an export or import statement anywhere it’s a module. 
+
+
+Example
+
+export class LikeComponent { 
+    constructor(private _likesCount: number, private _isSelected: boolean) {
+    }
+
+    onClick() {
+        this._likesCount += (this._isSelected) ? -1 : +1;
+        this._isSelected = !this._isSelected;
+    }
+
+    get likesCount() { 
+        return this._likesCount;
+    }
+
+    get isSelected() {
+        return this._isSelected;
+    }
+}
+
+
+Main.ts
+import { LikeComponent } from './like.component';
+
+let component = new LikeComponent(10, true);
+component.onClick();
+console.log(`likesCount: ${component.likesCount}, isSelected: ${component.isSelected}`);
+
+
+Angular Overview
+
+Component
+Module
+
+
+Component 
+A component encapsulates Data,HTML Template and Logic of HTML view. Angular promotes component based architecture where component can be considered as unique entity which can be reused. 
+Example Navbar can be a component which can be resued, in all the courses there can be a rating component that can be reused at many places inside your applications. 
+
+Component1
+component2
+
+
+Modules :
+You can consider module in angular as group of similar components.  Example can be admin module, course module etc. Like in supermarket we have separate section of fruits, hardware etc. So each aile in supermarket  can be considered as module which has that type of components. 
+
+
+
+
+Component :
+	Create a component
+	Register in a module
+	Add an element in an HTML Markup.
+
+How to create a component. Under src -> app folder you can create a new file with naming convention name1.component.ts or namepart1-namepart2.component.ts.
+
+
+Before we understand lets take some examples that we will be using in our component class. 
+<div id=”course”> - will be referred as #course inside component
+<div class=”course”> - will be referred as .course inside component
+<course></course> - here we are having some custom tag which we can refer directly as course. 
+
+
+
+Import { Component from ‘@angular/core’}   
+
+@Component({
+selector: ‘course’,
+template: ‘<h2>Hello Naren</h2>’
+})
+
+export  class CoursesComponent {
+
+}
+
+
+Now we have to register that component in app.module.ts file as shown below. 
+
+Component3
+
+Next is we have to have an html markup which has <course> tag like we can create course.component.html
+
+So basically all components will have a ts file then we will have a module file then we will have an html file 
+
+You can also use ng g c component name and It will generate all file for you and some boiler plate code. 
+
+
+
+Angular is the latest name and it acutally refers to all version from 2+.  AngularJS, Angular1.x  versions are older to angular 2 and they are very different than what angular is today. 

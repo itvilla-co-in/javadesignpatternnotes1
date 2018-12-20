@@ -1,0 +1,106 @@
+This design pattern is used when you want only one instance of your class which can be 
+globally accessed and any state change should be reflected globally. 
+
+Bascially, a Singleton class provides one unique global access point to the object so that each 
+subsequent call to the access point returns only that particular object i.e same instance.Singleton pattern restricts the instantiation of a class and ensures that only one instance of the class exists in the java virtual machine.
+
+Two ways are widely used 
+1. Eager singleton/Early initaliztion : Create singleton as soon as class is loaded so that object
+that needs to be globally accessed is already created. 
+
+2. Lazy initilization : Created when required first time. 
+
+Static member : This contains the instance of the singleton class.
+
+Private constructor : This will prevent anybody else to instantiate the Singleton class.
+Static public method : This provides the global point of access to the Singleton object and returns the instance to the client calling class.
+1. Note that the constructor has the private access modifier. This is a requirement for 
+creating a Singleton since a public constructor would mean anyone could access it and start 
+creating new instances.
+
+For resources that are expensive to create (like database connection objects)
+One reason that tends to come up over and over again on the internets is that of a "logging" class (which you mentioned). In this case, a Singleton can be used instead of a single instance of a class because a logging class usually needs to be used over and over again ad nauseam by every class in a project. If every class uses this logging class, dependency injection becomes cumbersome.Classes which provide access to configuration settings for the application
+Classes that contain resources that are accessed in shared mode
+Cache: We can use the cache as a singleton object as it can have a global point of reference and for all future calls to the cache object the client application will use the in-memory object.
+same as the many-to-one relationship in databases. If you have many different parts of your code that need to work with a single instance of an object, that is where it makes sense to use singletons.
+ 
+ 
+ Simple example of Eager type. This is very simple just create an instance and retrun.
+ 
+ package com.coffeepoweredcrew.singleton;
+/**
+ * This class uses eager initialization of singleton instance.
+ */
+public class EagerRegistry {
+	
+	private EagerRegistry() {
+		
+	}
+
+	private static final EagerRegistry INSTANCE = new EagerRegistry();
+	
+	public static EagerRegistry getInstance() {
+		return INSTANCE;
+	}
+}
+
+Lazy Technique 1
+/**
+ * Singleton pattern using lazy initialization holder class. This ensures that, we have a lazy initialization
+ * without worrying about synchronization.
+ */
+public class LazyRegistryIODH {
+
+	private LazyRegistryIODH() {
+		System.out.println("In LazyRegistryIODH singleton");
+	}
+	
+	private static class RegistryHolder {
+		static LazyRegistryIODH INSTANACE = new LazyRegistryIODH();
+	}
+	
+	public static LazyRegistryIODH getInstance() {
+		return RegistryHolder.INSTANACE;
+	}
+}
+
+
+Lazy Technique 2
+public class LazyRegistryWithDCL {
+
+    private LazyRegistryWithDCL() {
+    	
+    }
+    
+    private static volatile LazyRegistryWithDCL INSTANCE;
+    
+    public static LazyRegistryWithDCL getInstance() {
+    	if(INSTANCE == null) {
+    		synchronized (LazyRegistryWithDCL.class) {
+				if(INSTANCE == null) {
+					INSTANCE = new LazyRegistryWithDCL();				
+				}
+			}
+    	}
+    	return INSTANCE;
+    }
+}
+
+
+Client
+public class Client {
+
+	public static void main(String[] args) {
+		LazyRegistryIODH singleton;
+		
+		
+		singleton = LazyRegistryIODH.getInstance();
+		LazyRegistryIODH singleton2 = LazyRegistryIODH.getInstance();
+		System.out.println(singleton == singleton2);
+	}
+
+}
+
+
+ 
+

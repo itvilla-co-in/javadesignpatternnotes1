@@ -1,0 +1,137 @@
+The prototype pattern is a creational design pattern.  Suppose we are doing a sales 
+analysis on a set of data from a database. Normally, we would copy the information 
+from the database, encapsulate it into an object and do the analysis. But if another 
+analysis is needed on the same set of data, reading the database again and creating a
+ new object is not the best idea. Suppose you have to do multiple type of analysis 
+ using the same data we keep on creating objects of same type having same data. This 
+ is not good for performance.  If we are using the Prototype pattern then the object 
+ used in the first analysis will be cloned and used for the other analysis. Idea here 
+ is to save the cost of creating the object from scratch and hitting the DB again. Again
+  this is just one example to better understand. 
+
+So, Prototype design pattern is used in scenarios where application needs to create a number of instances of a class, which has almost same state or differs very little. If state of all objects are same why create many instances which might be costly.  The main advantage of this pattern is to have minimal instance creation process which is much costly than cloning process. We create object with existing object itself. One of the best available way to create object from existing objects are clone() method. Clone is the simplest approach to implement prototype pattern. 
+
+
+In general Prototype Design Pattern is also a pattern we use to receive an object instance for a particular class, such as builder and factory pattern. Instead of having a new fresh object every time, we can make a copy of an existed object instantly (object we can use as Prototype) and start using it. In that way, we do not have to repeat the building process for the object we are trying to use. The new copy object is totally independent with the original prototype object, and can be used for any purpose that will not affect the original.
+
+ 
+Prototype Manager – implemented usually as a hashtable keeping the object to clone. When use it, prototype become a factory method which uses cloning instead of instantiation.
+Deep Clones vs. Shallow Clones – when we clone complex objects which contains other objects, we should take care how they are cloned. We can clone contained objects also (deep cloning) or we can the same reference for them, and to share them between cloned container objects.
+
+Lets take an example that in your application where there are lot of shapes and we tend to create that same shape object again and again then
+we can create objects and keep them in memory and they can be cloned as many times as you want.
+
+Example
+The following code shows how to use Prototype Pattern to create objects.  First it create a Shape abstract class which implements the Cloneable interface. 
+
+abstract class Shape implements Cloneable {
+   
+   private String id;
+   protected String type;
+   
+   abstract void draw();
+   
+   public String getType(){
+      return type;
+   }
+   
+   public String getId() {
+      return id;
+   }
+   
+   public void setId(String id) {
+      this.id = id;
+   }
+   
+   public Object clone() {
+      Object clone = null;
+      try {
+         clone = super.clone();
+      } catch (CloneNotSupportedException e) {
+         e.printStackTrace();
+      }
+      return clone;
+   }
+}
+
+Then it creates three concrete classes extending the Shape class. 
+
+class Rectangle extends Shape {
+
+   public Rectangle(){
+     type = "Rectangle";
+   }
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+
+class Square extends Shape {
+
+   public Square(){
+     type = "Square";
+   }
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
+}
+
+class Circle extends Shape {
+
+   public Circle(){
+     type = "Circle";
+   }
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
+}
+
+After that it creates a ShapeProtoType class to return the prototype of shapes. 
+
+class ShapeProtoType{
+   
+   private static Hashtable<String, Shape> shapeMap 
+      = new Hashtable<String, Shape>();
+
+   public static Shape getShape(String shapeId) {
+      Shape cachedShape = shapeMap.get(shapeId);
+      return (Shape) cachedShape.clone();
+   }
+   public static void loadCache() {
+      Circle circle = new Circle();
+      circle.setId("1");
+      shapeMap.put(circle.getId(),circle);
+
+      Square square = new Square();
+      square.setId("2");
+      shapeMap.put(square.getId(),square);
+
+      Rectangle rectangle = new Rectangle();
+      rectangle.setId("3");
+      shapeMap.put(rectangle.getId(),rectangle);
+   }
+}
+
+
+public class Main{
+   public static void main(String[] args) {
+      ShapeProtoType.loadCache();
+
+      Shape clonedShape = (Shape) ShapeProtoType.getShape("1");
+      System.out.println("Shape : " + clonedShape.getType());    
+
+      Shape clonedShape2 = (Shape) ShapeProtoType.getShape("2");
+      System.out.println("Shape : " + clonedShape2.getType());    
+
+      Shape clonedShape3 = (Shape) ShapeProtoType.getShape("3");
+      System.out.println("Shape : " + clonedShape3.getType());    
+   }
+}
+
+

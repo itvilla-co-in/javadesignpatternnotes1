@@ -1,0 +1,30 @@
+What are design patterns. This is not a technology. These are just best practices that are standard and documented for design problems. For example you might have lot of code that might be creating a object with classname object = new classname(). When we start learning java this is how we know we can create objects. But when applications are designed there might be hundreds of thousands of objects created and there might be multiple types of objects some objects might be constants with either no change or less changes some might be very dynamic changing value frequently. So you dont just create  all types of objects in the same way. There is lot of thoughts gone and these design patters are documented approaches on how to go about some known challenges. 
+ A design pattern provides you a design level approach or solution to a set of similar type of design problem. Using design pattern help you solve your problem and hence deliver faster.
+
+In software engineering, a software design pattern is a general, reusable 
+solution to a commonly occurring problem within a given context in software 
+design. Design patterns are formalized best practices that the programmer 
+can use to solve common problems when designing an application or system.
+
+There are mainly three types of design patterns in java. 
+
+1. Creational design patterns : These are design patterns that deal with object
+ creation mechanisms, trying to create objects in a manner suitable to the 
+ situation. The basic form of object creation could result in design problems 
+ or added complexity to the design. Creational design patterns solve this problem
+by somehow controlling this object creation. Your client code should not be creating
+objects with new keyword all the time and if there are coplex objects to be created
+for example objects having other objects inside them might be a complex case for 
+your client codes to handle, so all that complexity should be handled by your client codes.
+
+
+Types of Creational Design pattern are :
+    Abstract factory pattern, which provides an interface for creating related or dependent objects without specifying the objects' concrete classes.[3]
+    Builder pattern, which separates the construction of a complex object from its representation so that the same construction process can create different representations.
+    Factory method pattern, which allows a class to defer instantiation to subclasses.[4]
+    Prototype pattern, which specifies the kind of object to create using a prototypical instance, and creates new objects by cloning this prototype.
+    Singleton pattern, which ensures that a class only has one instance, and provides a global point of access to it.[5]
+    
+    
+ 2. Structural Design Patterns :
+ 
